@@ -49,3 +49,6 @@ Temporary Items
 .settings/org.eclipse.jdt.core.prefs
 *.project
 .classpath
+double-dump
+linear-dump
+word-list

@@ -1,9 +1,12 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 public class HashTest {
 
@@ -73,7 +76,7 @@ public class HashTest {
 		retString.append(theTable.getNumberOfKeys());
 		retString.append(" elements, of which ");
 		retString.append(theTable.getDuplicates());
-		retString.append("duplicates");
+		retString.append(" duplicates");
 		retString.append("\n");
 		retString.append("load factor = ");
 		retString.append(maxLoadFactor);
@@ -86,7 +89,21 @@ public class HashTest {
 	}
 	
 	private void printTables() {
-		// TODO - print to files here	
+		printTableFile(linearTable);
+		printTableFile(doubleTable);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private void printTableFile(HashTable thisTable) {
+		String fileName = thisTable.getType().toLowerCase() + "-dump"; 
+		try {
+			FileWriter file = new FileWriter(fileName, false); 
+			BufferedWriter writer = new BufferedWriter(file);
+			writer.write(thisTable.toString());
+			writer.close();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -120,6 +137,11 @@ public class HashTest {
 		double doubleLoad = doubleTable.getLoadFactor();
 		
 		while (linearLoad < maxLoadFactor || doubleLoad < maxLoadFactor) {
+			try {
+				TimeUnit.MILLISECONDS.sleep(1);
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
 			long currentTime = System.currentTimeMillis();
 			if (linearLoad < maxLoadFactor) {
 				linearTable.insert(currentTime);
@@ -152,6 +174,7 @@ public class HashTest {
 		try {
 			reader = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException err) {
+			System.err.println(err.getMessage());
 			System.exit(1);
 		}
 		
@@ -204,9 +227,9 @@ public class HashTest {
 			debug = true;
 		}*/
 		
-		int input = 1;
+		int input = 3;
 		double load = 0.5;
-		boolean debug = false;				
+		boolean debug = true;				
 		
 		HashTest thisTest = new HashTest(input, load, debug);
 		thisTest.runTest();

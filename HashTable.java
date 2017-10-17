@@ -1,4 +1,4 @@
-import java.util.Arrays;
+
 
 public class HashTable<T> {
 	
@@ -45,7 +45,7 @@ public class HashTable<T> {
 		int probes = 0;
 		for (int i = 0; i < hashTable.length; i++) {
 			if (hashTable[i] != null) {
-				probes += hashTable[i].getProbeCount();				
+				probes += hashTable[i].getProbeCount() + 1;				
 			}
 		}		
 		return probes;
@@ -78,8 +78,8 @@ public class HashTable<T> {
 		}
 	}
 	
-	public int getDuplicates() {
-		int duplicates = 0;		
+	public double getDuplicates() {
+		double duplicates = 0;		
 		for (int i = 0; i < hashTable.length; i++) {
 			if (hashTable[i] != null) {
 				duplicates += hashTable[i].getDuplicateCount();				
